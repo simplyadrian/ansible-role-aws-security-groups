@@ -10,10 +10,10 @@
     vpc_id: "{{ item.aws_acct_vpc_id }}"
     region: "{{ item.aws_region | default('us-west-2') }}"
     rules:
-      - proto: "{{ item.ingress_proto | default(omit) }}"
-        from_port: "{{ item.ingress_from_port | default(omit) }}"
-        to_port: "{{ item.ingress_to_port |default(omit) }}"
-        cidr_ip: "{{ item.ingress_cidr_ip |default(omit) }}"
+      - proto: "{{ item.ingress_proto }}"
+        from_port: "{{ item.ingress_from_port }}"
+        to_port: "{{ item.ingress_to_port }}"
+        cidr_ip: "{{ item.ingress_cidr_ip }}"
     rules_egress:
       - proto: "{{ item.egress_proto | default(omit) }}"
         from_port: "{{ item.egress_from_port | default(omit) }}"
