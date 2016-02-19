@@ -1,0 +1,24 @@
+---
+# tasks file for ansible-role-aws-security-groups
+
+- name: Create security groups
+  ec2_group:
+		 aws_access_key: "{{ aws_access_key }}"
+		 aws_secret_key: "{{ aws_secret_key }}"
+		 name: "{{ environ }}-{{ item.service }}"
+		 description: "Security group for the {{ environ }}-{{ item.service }}"
+		 vpc_id: "{{ item.aws_acct_vpc_id }}"
+		 region: "{{ item.aws_region | default('us-west2') }}"
+		 rules:
+			 - proto: "{{ item.ingress_proto }}"
+				 from_port: "{{ item.ingress_from_port }}"
+				 to_port: "{{ item.ingress_to_port }}"
+				 cidr_ip: "{{ item.ingress_cidr_ip }}"
+		 rules_egress:
+			 - proto: "{{ item.egress_proto }}"
+         from_port: "{{ item.egress_from_port | default(omit) }}"
+				 to_port: "{{ item.egress_to_port | default(omit) }}"
+				 cidr_ip: "{{ item.egress_cidr_ip | default('0.0.0.0/0') }}"
+		 purge_rules: true
+		 purge_rules_egress: true
+  with_items: sg_settings

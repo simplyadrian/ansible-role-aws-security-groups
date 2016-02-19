@@ -1,0 +1,4 @@
+---
+# tasks file for ansible-role-aws-security-group
+- include: sg_setup.yml
+  when: sg_settings is defined
