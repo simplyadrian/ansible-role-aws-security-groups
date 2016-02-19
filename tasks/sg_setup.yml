@@ -3,12 +3,12 @@
 
 - name: Create security groups
   ec2_group:
-		 aws_access_key: "{{ aws_access_key }}"
-		 aws_secret_key: "{{ aws_secret_key }}"
-		 name: "{{ environ }}-{{ item.service }}"
-		 description: "Security group for the {{ environ }}-{{ item.service }}"
+		 aws_access_key: "{{lookup('env','AWS_ACCESS_KEY_ID')}}"
+		 aws_secret_key: "{{lookup('env','AWS_SECRET_ACCESS_KEY')}}"
+		 name: "{{ environ }}-{{ item.service_name }}"
+		 description: "Security group for the {{ environ }}-{{ item.service_name }}"
 		 vpc_id: "{{ item.aws_acct_vpc_id }}"
-		 region: "{{ item.aws_region | default('us-west2') }}"
+		 region: "{{ item.aws_region | default('us-west-2') }}"
 		 rules:
 			 - proto: "{{ item.ingress_proto }}"
 				 from_port: "{{ item.ingress_from_port }}"
