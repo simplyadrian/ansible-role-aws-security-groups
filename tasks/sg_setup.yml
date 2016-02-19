@@ -15,8 +15,8 @@
         to_port: "{{ item.ingress_to_port }}"
         cidr_ip: "{{ item.ingress_cidr_ip }}"
     rules_egress:
-      - proto: "{{ item.egress_proto }}"
+      - proto: "{{ item.egress_proto | default(omit) }}"
         from_port: "{{ item.egress_from_port | default(omit) }}"
         to_port: "{{ item.egress_to_port | default(omit) }}"
-        cidr_ip: "{{ item.egress_cidr_ip | default('0.0.0.0/0') }}"
+        cidr_ip: "{{ item.egress_cidr_ip | default(omit) }}"
   with_items: sg_settings
