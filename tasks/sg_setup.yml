@@ -14,3 +14,7 @@
     rules_egress:
       "{{ item.value.rules_egress | default([]) }}"
   with_dict: sg_settings
+  register: ec2_sg
+
+- debug: var=item
+  with_items: ec2_sg
