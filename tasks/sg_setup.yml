@@ -5,14 +5,13 @@
   ec2_group:
     name: "{{ environ }}-{{ item.key }}"
     description: "Security group for the {{ environ }}-{{ item.key }}"
-    aws_access_key: "{{lookup('env','AWS_ACCESS_KEY_ID')}}"
-    aws_secret_key: "{{lookup('env','AWS_SECRET_ACCESS_KEY')}}"
     vpc_id: "{{ item.value.aws_acct_vpc_id }}"
     region: "{{ item.value.aws_region | default('us-west-2') }}"
     rules:
       "{{ item.value.rules }}"
     rules_egress:
       "{{ item.value.rules_egress | default([]) }}"
+    security_token: "{{ sg_security_token | default(omit, true) }}"
   with_dict: sg_settings
   register: sg
 
