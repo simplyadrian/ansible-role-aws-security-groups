@@ -7,12 +7,23 @@
     description: "Security group for the {{ environ }}-{{ item.key }}"
     vpc_id: "{{ item.value.aws_acct_vpc_id }}"
     region: "{{ item.value.aws_region | default('us-west-2') }}"
+    state: "{{ state | default('present') }}"
     rules:
       "{{ item.value.rules }}"
     rules_egress:
       "{{ item.value.rules_egress | default([]) }}"
     security_token: "{{ sg_security_token | default(omit, true) }}"
-  with_dict: sg_settings
+  with_dict: "{{ sg_settings }}"
   register: sg
 
-- debug: var=sg
+- name: set fact security_group_name
+  set_fact:
+    security_group_name: "{{ sg.results.0.invocation.module_args.name }}"
+
+- name: set fact security_group_id
+  set_fact:
+    security_group_id: "{{ sg.results.0.group_id }}"
+
+- debug: var=security_group_name
+
+- debug: var=security_group_id

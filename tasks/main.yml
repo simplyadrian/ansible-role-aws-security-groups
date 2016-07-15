@@ -1,4 +1,7 @@
 ---
 # tasks file for ansible-role-aws-security-group
-- include: sg_setup.yml
-  when: sg_settings is defined
+- include: create.yml
+  when: (state is defined and not state == "absent") or state is not defined
+
+- include: destroy.yml
+  when: state is defined and state == "absent"
