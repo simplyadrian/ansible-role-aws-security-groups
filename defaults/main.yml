@@ -1,3 +1,5 @@
 ---
 # defaults file for ansible-role-aws-security-groups
+environ: dev
+state: present
 sg_settings: {}

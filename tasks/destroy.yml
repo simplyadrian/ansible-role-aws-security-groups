@@ -1,0 +1,9 @@
+---
+# tasks file for aws-elb
+- name: destroy elb
+  ec2_group:
+    name: "{{ environ }}-{{ item.key }}"
+    description: "Security group for the {{ environ }}-{{ item.key }}"
+    state: "{{ state }}"
+    region: "{{ item.value.aws_region | default('us-west-2') }}"
+  with_dict: "{{ sg_settings }}"
