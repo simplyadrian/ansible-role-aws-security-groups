@@ -11,7 +11,7 @@
     rules:
       "{{ item.value.rules }}"
     rules_egress:
-      "{{ item.value.rules_egress | default([]) }}"
+      "{{ item.value.rules_egress | default( [{'proto': 'all', 'cidr_ip': '0.0.0.0/0'}] ) }}"
     security_token: "{{ sg_security_token | default(omit, true) }}"
   with_dict: "{{ sg_settings }}"
   register: sg
